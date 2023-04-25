@@ -45,6 +45,11 @@ class CharacterSelector:
 
         self.stats_vars = {stat: IntVar() for stat in characters['Chevalier'].keys() if stat != 'Histoire'}
 
+        #Barre de progression
+        self.progress = ttk.Progressbar(mainframe, orient=HORIZONTAL, length=200, mode='determinate', maximum=100,value=0)
+        self.progress.grid(column=1, row=5, columnspan=4, pady=10)
+
+
         self.stat_spinboxes = {}
         for idx, stat in enumerate(characters['Chevalier'].keys()):
             if stat != 'Histoire':
@@ -114,14 +119,27 @@ class CharacterSelector:
 
         messagebox.showinfo("Résultat du combat", battle_result)
 
+        current_value = self.progress["value"]
+        if character_name in battle_result:
+            new_value = min(current_value + 10, 100)  # augmenter la barre de progression de 10, jusqu'à un maximum de 100
+            self.progress["value"] = new_value
+            if new_value == 100:
+                messagebox.showinfo("Gagné", "Félicitations ! Vous avez gagné !")
+        else:
+            new_value = max(current_value - 10, 0)  # diminuer la barre de progression de 10, jusqu'à un minimum de 0
+            self.progress["value"] = new_value
+            if new_value == 0:
+                messagebox.showinfo("Perdu", "Vous avez perdu. Essayez à nouveau !")
+
+
     def generate_monster(self):
-        monster_stats = {
-            "Force": random.randint(1, 30),
-            "Agilité": random.randint(1, 30),
-            "Intelligence": random.randint(1, 30),
-            "Endurance": random.randint(1, 30)
-        }
-        return monster_stats
+            monster_stats = {
+                "Force": random.randint(1, 30),
+                "Agilité": random.randint(1, 30),
+                "Intelligence": random.randint(1, 30),
+                "Endurance": random.randint(1, 30)
+            }
+            return monster_stats
 
     def battle(self, character_name, character_stats, monster_stats):
         # implemente la logique du combat
