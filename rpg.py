@@ -1,6 +1,6 @@
 import random
 from tkinter import *
-from tkinter import ttk
+from tkinter import ttk, messagebox
 
 characters = {
     'Chevalier': {'Force': 15, 'Agilité': 10, 'Intelligence': 7, 'Endurance': 14, 'Histoire': ''},
@@ -49,10 +49,7 @@ class CharacterSelector:
         self.points_left.set(44)
         ttk.Label(stats_frame, text="Points restants : ").grid(column=0, row=5, sticky=W, padx=5, pady=5)
         ttk.Label(stats_frame, textvariable=self.points_left).grid(column=1, row=5, sticky=W, padx=5, pady=5)
-        ttk.Button(stats_frame, text="Random stat", command=self.randomize_stats).grid(column=0, row=6,
-                                                                                                       columnspan=2,
-                                                                                                       sticky=(W, E),
-                                                                                                       padx=5, pady=5)
+        ttk.Button(stats_frame, text="Random stat", command=self.randomize_stats).grid(column=0, row=6,columnspan=2, sticky=(W, E),padx=5, pady=5)
 
         # Story editor frame
         story_frame = ttk.LabelFrame(mainframe, text="Histoire", padding="10 10 10 10")
@@ -62,7 +59,7 @@ class CharacterSelector:
         self.story_text.grid(column=0, row=0, padx=5, pady=5)
 
         ttk.Button(story_frame, text="Sauvegarder l'histoire", command=self.save_story).grid(column=0, row=1,sticky=(W, E), padx=5,pady=5)
-
+        ttk.Button(story_frame, text="Combattre un monstre", command=self.start_battle).grid(column=0, row=2, sticky=(W, E), padx=5, pady=5)
         self.update_stat_spinboxes()
 
     def update_stat_spinboxes(self, event=None):
@@ -98,6 +95,38 @@ class CharacterSelector:
     def save_story(self):
         character_name = self.selected_character.get()
         characters[character_name]['Histoire'] = self.story_text.get(1.0, END).strip()
+
+    def start_battle(self):
+        character_name = self.selected_character.get()
+        character_stats = characters[character_name]
+
+        monster = self.generate_monster()
+
+        battle_result = self.battle(character_name,character_stats, monster)
+
+        messagebox.showinfo("Résultat du combat", battle_result)
+
+    def generate_monster(self):
+        monster_stats = {
+            "Force": random.randint(1, 30),
+            "Agilité": random.randint(1, 30),
+            "Intelligence": random.randint(1, 30),
+            "Endurance": random.randint(1, 30)
+        }
+        return monster_stats
+
+    def battle(self, character_name, character_stats, monster_stats):
+        # implemente la logique du combat
+        # Compare la des stats du personnage et du monstre
+        character_power = sum(character_stats[stat] for stat in character_stats if stat != 'Histoire')
+        monster_power = sum(monster_stats.values())
+
+        if character_power > monster_power:
+            return f"{character_name} a gagné le combat contre le monstre!"
+        elif character_power < monster_power:
+            return f"{character_name} a perdu le combat contre le monstre."
+        else:
+            return f"{character_name} et le monstre ont fait match nul."
 
 
 root = Tk()
