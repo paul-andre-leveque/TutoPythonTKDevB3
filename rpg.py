@@ -1,6 +1,7 @@
 import random
 from tkinter import *
 from tkinter import ttk, messagebox
+from ttkthemes import ThemedTk
 
 characters = {
     'Chevalier': {'Force': 15, 'Agilité': 10, 'Intelligence': 7, 'Endurance': 14, 'Histoire': ''},
@@ -15,12 +16,19 @@ class CharacterSelector:
     def __init__(self, root):
         root.title("Sélection de personnage")
 
+        # ajoute de stryle avec la commande pip install ttkthemes
+        style = ttk.Style()
+        style.configure("TLabel", font=("Arial", 12))
+        style.configure("TButton", font=("Arial", 12))
+        style.configure("TLabelFrame", font=("Arial", 14, "bold"))
+        style.configure("TFrame", background="#f0f0f0")
+
         mainframe = ttk.Frame(root, padding="10 10 10 10")
         mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
         root.columnconfigure(0, weight=1)
         root.rowconfigure(0, weight=1)
 
-        # Character selection frame
+        # Selection Personage
         character_frame = ttk.LabelFrame(mainframe, text="Personnage", padding="10 10 10 10")
         character_frame.grid(column=0, row=0, sticky=(N, W, E, S))
 
@@ -31,7 +39,7 @@ class CharacterSelector:
         character_choice.current(0)
         character_choice.bind("<<ComboboxSelected>>", self.update_stat_spinboxes)
 
-        # Stat spinboxes frame
+
         stats_frame = ttk.LabelFrame(mainframe, text="Statistiques", padding="10 10 10 10")
         stats_frame.grid(column=1, row=0, sticky=(N, W, E, S))
 
@@ -51,7 +59,7 @@ class CharacterSelector:
         ttk.Label(stats_frame, textvariable=self.points_left).grid(column=1, row=5, sticky=W, padx=5, pady=5)
         ttk.Button(stats_frame, text="Random stat", command=self.randomize_stats).grid(column=0, row=6,columnspan=2, sticky=(W, E),padx=5, pady=5)
 
-        # Story editor frame
+        # Editeur D'histoire
         story_frame = ttk.LabelFrame(mainframe, text="Histoire", padding="10 10 10 10")
         story_frame.grid(column=0, row=1, columnspan=2, sticky=(N, W, E, S))
 
@@ -129,6 +137,7 @@ class CharacterSelector:
             return f"{character_name} et le monstre ont fait match nul."
 
 
-root = Tk()
+root = ThemedTk(theme="arc")
+root.configure(background="#f0f0f0")
 CharacterSelector(root)
 root.mainloop()
