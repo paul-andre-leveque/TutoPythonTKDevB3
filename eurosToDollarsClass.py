@@ -28,7 +28,7 @@ class CurrencyConverter:
         conversion_choice.current(0)
 
         ttk.Label(mainframe, text="Montant").grid(column=1, row=1, sticky=W)
-        ttk.Label(mainframe, text="Résulta").grid(column=1, row=2, sticky=E)
+        ttk.Label(mainframe, text="Résultat").grid(column=1, row=2, sticky=E)
 
         for child in mainframe.winfo_children():
             child.grid_configure(padx=5, pady=5)
