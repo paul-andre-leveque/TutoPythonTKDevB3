@@ -1,3 +1,4 @@
+import random
 from tkinter import *
 from tkinter import ttk
 
@@ -34,6 +35,7 @@ class CharacterSelector:
         stats_label.grid(column=2, row=1, sticky=(W, E))
 
         ttk.Button(mainframe, text="Afficher les statistiques", command=self.display_stats).grid(column=3, row=3, sticky=W)
+        ttk.Button(mainframe, text="Randomiser les statistiques", command=self.randomize_stats).grid(column=4, row=3, sticky=W)
 
         for child in mainframe.winfo_children():
             child.grid_configure(padx=5, pady=5)
@@ -43,6 +45,12 @@ class CharacterSelector:
         stats = characters[character_name]
         stats_text = "\n".join(f"{stat}: {value}" for stat, value in stats.items())
         self.character_stats.set(stats_text)
+
+    def randomize_stats(self):
+        for character in characters:
+            for stat in characters[character]:
+                characters[character][stat] = random.randint(1, 20)
+        self.display_stats()
 
 
 root = Tk()
