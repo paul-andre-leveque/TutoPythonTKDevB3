@@ -16,11 +16,12 @@ class CharacterSelector:
     def __init__(self, root):
         root.title("Sélection de personnage")
 
-        # ajoute de stryle avec la commande pip install ttkthemes
+        # ajoute de style avec la commande pip install ttkthemes
         style = ttk.Style()
-        style.configure("TLabel", font=("Arial", 12))
-        style.configure("TButton", font=("Arial", 12))
-        style.configure("TLabelFrame", font=("Arial", 14, "bold"))
+        style.configure("TLabel", font=("Arial", 12), background="#f0f0f0", foreground="#3a3a3a")
+        style.configure("TButton", font=("Arial", 12), relief=SUNKEN, padding=(5, 5))
+        style.configure("TLabelFrame", font=("Arial", 14, "bold"), background="#f0f0f0", foreground="#3a3a3a",
+                        padding=(10, 10), relief=SUNKEN)
         style.configure("TFrame", background="#f0f0f0")
 
         mainframe = ttk.Frame(root, padding="10 10 10 10")
