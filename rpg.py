@@ -194,7 +194,6 @@ class CharacterSelector:
         character_selection_tab = ttk.Frame(notebook)
         notebook.add(character_selection_tab, text="Sélection de personnage")
 
-        # ... (previous character selection code)
 
     def create_other_tabs(self, notebook):
         other_tab_1 = ttk.Frame(notebook)
