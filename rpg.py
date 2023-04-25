@@ -21,37 +21,59 @@ class CharacterSelector:
         root.rowconfigure(0, weight=1)
 
         self.selected_character = StringVar()
-        self.character_stats = StringVar()
+        self.stats_vars = {stat: IntVar() for stat in characters['Chevalier'].keys()}
 
         character_choice = ttk.Combobox(mainframe, width=15, textvariable=self.selected_character)
         character_choice['values'] = tuple(characters.keys())
         character_choice.grid(column=1, row=1, sticky=(W, E))
         character_choice.current(0)
+        character_choice.bind("<<ComboboxSelected>>", self.update_stat_spinboxes)
 
         ttk.Label(mainframe, text="Personnage").grid(column=1, row=2, sticky=W)
-        ttk.Label(mainframe, text="Statistiques").grid(column=2, row=2, sticky=W)
 
-        stats_label = ttk.Label(mainframe, textvariable=self.character_stats)
-        stats_label.grid(column=2, row=1, sticky=(W, E))
+        self.stat_spinboxes = {}
+        for idx, stat in enumerate(characters['Chevalier'].keys()):
+            ttk.Label(mainframe, text=stat).grid(column=4, row=idx+1, sticky=W)
+            spinbox = Spinbox(mainframe, from_=0, to=30, textvariable=self.stats_vars[stat], width=3, command=self.validate_stats)
+            spinbox.grid(column=5, row=idx+1, sticky=(W, E))
+            self.stat_spinboxes[stat] = spinbox
 
-        ttk.Button(mainframe, text="Afficher les statistiques", command=self.display_stats).grid(column=3, row=3, sticky=W)
-        ttk.Button(mainframe, text="Randomiser les statistiques", command=self.randomize_stats).grid(column=4, row=3, sticky=W)
+        self.points_left = IntVar()
+        self.points_left.set(45)
+        ttk.Label(mainframe, text="Points restants : ").grid(column=6, row=1, sticky=W)
+        ttk.Label(mainframe, textvariable=self.points_left).grid(column=7, row=1, sticky=W)
 
-        for child in mainframe.winfo_children():
-            child.grid_configure(padx=5, pady=5)
+        ttk.Button(mainframe, text="Random stat", command=self.randomize_stats).grid(column=7, row=4, sticky=W)
 
-    def display_stats(self):
+        self.update_stat_spinboxes()
+
+    def update_stat_spinboxes(self, event=None):
         character_name = self.selected_character.get()
         stats = characters[character_name]
-        stats_text = "\n".join(f"{stat}: {value}" for stat, value in stats.items())
-        self.character_stats.set(stats_text)
+        for stat in stats:
+            self.stats_vars[stat].set(stats[stat])
+
+    def validate_stats(self):
+        total_points = sum(self.stats_vars[stat].get() for stat in self.stats_vars)
+        if total_points > 45:
+            for stat in self.stats_vars:
+                self.stats_vars[stat].set(characters[self.selected_character.get()][stat])
+        else:
+            characters_name = self.selected_character.get()
+            for stat in self.stats_vars:
+                characters[characters_name][stat] = self.stats_vars[stat].get()
+            self.points_left.set(45 - total_points)
+
 
     def randomize_stats(self):
-        for character in characters:
-            for stat in characters[character]:
-                characters[character][stat] = random.randint(1, 20)
-        self.display_stats()
-
+        remaining_points = 45
+        character_name = self.selected_character.get()
+        for stat in self.stats_vars:
+            random_value = random.randint(0, remaining_points)
+            self.stats_vars[stat].set(random_value)
+            characters[character_name][stat] = random_value
+            remaining_points -= random_value
+        self.points_left.set(remaining_points)
 
 root = Tk()
 CharacterSelector(root)
