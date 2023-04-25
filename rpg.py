@@ -4,12 +4,12 @@ from tkinter import ttk, messagebox
 from ttkthemes import ThemedTk
 
 characters = {
-    'Chevalier': {'Force': 15, 'Agilité': 10, 'Intelligence': 7, 'Endurance': 14, 'Histoire': ''},
-    'Magicien': {'Force': 5, 'Agilité': 8, 'Intelligence': 17, 'Endurance': 9, 'Histoire': ''},
-    'Voleur': {'Force': 10, 'Agilité': 15, 'Intelligence': 9, 'Endurance': 11, 'Histoire': ''},
-    'Archer': {'Force': 12, 'Agilité': 14, 'Intelligence': 8, 'Endurance': 12, 'Histoire': ''},
-    'Druide': {'Force': 8, 'Agilité': 10, 'Intelligence': 15, 'Endurance': 10, 'Histoire': ''},
-    'Paladin': {'Force': 13, 'Agilité': 9, 'Intelligence': 12, 'Endurance': 14, 'Histoire': ''}
+    'Chevalier': {'Force': 15, 'Agilité': 10, 'Intelligence': 7, 'Endurance': 14, 'Histoire': 'Tu peux écrire ici ton histoire'},
+    'Magicien': {'Force': 5, 'Agilité': 8, 'Intelligence': 17, 'Endurance': 9, 'Histoire': 'Tu peux écrire ici ton histoire'},
+    'Voleur': {'Force': 10, 'Agilité': 15, 'Intelligence': 9, 'Endurance': 11, 'Histoire': 'Tu peux écrire ici ton histoire'},
+    'Archer': {'Force': 12, 'Agilité': 14, 'Intelligence': 8, 'Endurance': 12, 'Histoire': 'Tu peux écrire ici ton histoire'},
+    'Druide': {'Force': 8, 'Agilité': 10, 'Intelligence': 15, 'Endurance': 10, 'Histoire': 'Tu peux écrire ici ton histoire'},
+    'Paladin': {'Force': 13, 'Agilité': 9, 'Intelligence': 12, 'Endurance': 14, 'Histoire': 'Tu peux écrire ici ton histoire'}
 }
 
 class CharacterSelector:
