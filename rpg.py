@@ -14,7 +14,10 @@ characters = {
 
 class CharacterSelector:
     def __init__(self, root):
+        self.root = root
         root.title("Sélection de personnage")
+        # Create a menu
+        self.create_menu()
 
         # ajout de style avec la commande pip install ttkthemes
         style = ttk.Style()
@@ -48,6 +51,7 @@ class CharacterSelector:
         #Barre de progression
         self.progress = ttk.Progressbar(mainframe, orient=HORIZONTAL, length=200, mode='determinate', maximum=100,value=0)
         self.progress.grid(column=1, row=5, columnspan=4, pady=10)
+
 
 
         self.stat_spinboxes = {}
@@ -153,6 +157,51 @@ class CharacterSelector:
             return f"{character_name} a perdu le combat contre le monstre."
         else:
             return f"{character_name} et le monstre ont fait match nul."
+
+    def create_menu(self):
+        menubar = Menu(self.root)
+        self.root.config(menu=menubar)
+
+        file_menu = Menu(menubar, tearoff=0)
+        file_menu.add_command(label="Nouveau", command=self.new_file)
+        file_menu.add_command(label="Ouvrir", command=self.open_file)
+        file_menu.add_command(label="Enregistrer", command=self.save_file)
+        file_menu.add_separator()
+        file_menu.add_command(label="Quitter", command=self.root.quit)
+        menubar.add_cascade(label="Fichier", menu=file_menu)
+
+        help_menu = Menu(menubar, tearoff=0)
+        help_menu.add_command(label="Aide", command=self.show_help)
+        help_menu.add_command(label="À propos", command=self.show_about)
+        menubar.add_cascade(label="Aide", menu=help_menu)
+
+    def new_file(self):
+        pass
+
+    def open_file(self):
+        pass
+
+    def save_file(self):
+        pass
+
+    def show_help(self):
+        messagebox.showinfo("Aide", "Ceci est une aide pour l'application.")
+
+    def show_about(self):
+        messagebox.showinfo("À propos", "Ceci est une application de sélection de personnage.")
+
+    def create_character_selection_tab(self, notebook):
+        character_selection_tab = ttk.Frame(notebook)
+        notebook.add(character_selection_tab, text="Sélection de personnage")
+
+        # ... (previous character selection code)
+
+    def create_other_tabs(self, notebook):
+        other_tab_1 = ttk.Frame(notebook)
+        notebook.add(other_tab_1, text="Autre onglet 1")
+
+        other_tab_2 = ttk.Frame(notebook)
+        notebook.add(other_tab_2, text="Autre onglet 2")
 
 
 root = ThemedTk(theme="arc")
